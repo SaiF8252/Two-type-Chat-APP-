@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Two-Device Chat</title>
+    <link rel="stylesheet" href="/index.css" />
+  </head>
+  <body>
+    press Esc to see active user
+    <div id="chat-app" style="display: flex; height: 100vh">
+      <!-- Active Users Sidebar (LEFT) -->
+      <aside
+        id="user-list"
+        style="
+          width: 200px;
+          background: rgba(255, 255, 255, 0.9);
+          padding: 10px;
+          overflow-y: auto;
+          position: fixed;
+          left: -220px;
+          top: 0;
+          height: 100%;
+          transition: left 0.3s ease;
+          z-index: 999;
+        "
+      >
+        <h3>Active Users</h3>
+        <ul id="activeUsers"></ul>
+      </aside>
+
+      <!-- Name Sidebar (RIGHT) -->
+      <aside
+        id="name-sidebar"
+        style="
+          width: 200px;
+          background: rgba(240, 240, 240, 0.95);
+          padding: 10px;
+          overflow-y: auto;
+          position: fixed;
+          right: 0;
+          top: 0;
+          height: 100%;
+          border-left: 1px solid #ccc;
+        "
+      >
+        <h3>Set Your Name</h3>
+        <input id="nameInput" placeholder="Your name" />
+        <button id="saveName">Save</button>
+      </aside>
+
+      <!-- Main Chat -->
+      <div
+        id="chat-main"
+        style="flex: 1; display: flex; flex-direction: column"
+      >
+        <header
+          style="
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            background: #012006;
+          "
+        >
+          <div class="me">
+            <img src="https://i.pravatar.cc/40" alt="me Save Your Name" />
+            <span id="displayName">Waiting For User,Pls Save Your Name</span>
+          </div>
+          <div class="status"><span id="conn">Connecting…</span></div>
+        </header>
+
+        <ul
+          id="messages"
+          class="messages"
+          style="flex: 1; overflow-y: auto; list-style: none; padding: 10px"
+        ></ul>
+
+        <form id="composer">
+          <input
+            id="text"
+            type="text"
+            placeholder="Type a message"
+            autocomplete="off"
+          />
+          <input id="files" type="file" multiple hidden />
+          <button type="button" id="pick">File</button>
+          <button type="button" id="send">Send</button>
+        </form>
+      </div>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/client.js"></script>
+
+    <script>
+      const saveNameBtn = document.getElementById("saveName");
+      const nameInput = document.getElementById("nameInput");
+      const displayName = document.getElementById("displayName");
+
+      saveNameBtn.addEventListener("click", () => {
+        const name = nameInput.value.trim();
+        if (name) {
+          displayName.textContent = name; // show name in chat header
+        }
+      });
+    </script>
+  </body>
+</html>
